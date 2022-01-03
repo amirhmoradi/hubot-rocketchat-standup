@@ -1,0 +1,38 @@
+{
+  "name": "hubot-rocketchat-standup",
+  "version": "2.0.0",
+  "description": "A Hubot for Initiating Virtual Stand Ups",
+  "main": "bin/hubot",
+  "repository": "git@github.com:amirhmoradi/hubot-rocketchat-standup.git",
+  "author": "Amir Moradi",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "hubot",
+    "rocketchat",
+    "chatbot",
+    "chat",
+    "standup"
+  ],
+  "engines": {
+    "node": ">=14.x",
+    "npm": ">=7.x"
+  },
+  "scripts": {
+    "debug": "node --inspect --inspect-brk -r dotenv/config node_modules/hubot/bin/hubot.js -a rocketchat",
+    "shell": "node -r dotenv/config node_modules/hubot/bin/hubot.js -a shell",
+    "local": "node -r dotenv/config node_modules/hubot/bin/hubot.js -a rocketchat",
+    "start": "source ./.env; hubot -a rocketchat"
+  },
+  "dependencies": {
+    "asteroid": "^2.0.3",
+    "coffeescript": "^2.6.1",
+    "hubot": "^3.3.2",
+    "hubot-conversation": "^1.1.1",
+    "hubot-rocketchat": "^2.0.0",
+    "node-schedule": "^2.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
