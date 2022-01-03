@@ -2,7 +2,7 @@
   "name": "hubot-rocketchat-standup",
   "version": "2.0.0",
   "description": "A Hubot for Initiating Virtual Stand Ups",
-  "main": "bin/hubot",
+  "main": "scripts/standup.js",
   "repository": "git@github.com:amirhmoradi/hubot-rocketchat-standup.git",
   "author": "Amir Moradi",
   "license": "MIT",
