@@ -1,3 +1,4 @@
+"use strict";
 // Description:
 //    https://github.com/hubotio/hubot/blob/master/docs/scripting.md#documenting-scripts
 //
@@ -182,19 +183,19 @@ const scheduleStandUp =  robot => (msg) => {
     const {roomID: roomId} = msg.envelope.user;
     const dialog = robot.switchBoard.startDialog(msg);
 
-    msg.reply('What days of the week should this run for (MTWRF)?');
-    dialog.addChoice(/^[MTWRF]+$/i, (msg2) => {
+    msg.reply('What days of the week should this run for (MTWRFSD) (eq: Monday, Tuesday, Wednesday, thuRsday, Friday, Saturday, sunDay) ?');
+    dialog.addChoice(/^[MTWRFSD]+$/i, (msg2) => {
         const {message: {text: weekdays}} = msg2;
         const crondays = [];
         for (const day of weekdays.toUpperCase().replace(/[\s,]+/g, '')) {
-            const index = 'MTWRF'.indexOf(day) + 1;
+            const index = 'MTWRFSD'.indexOf(day) + 1;
             crondays.push(index);
             if (index < 1) {
                 return msg2.reply(`BAD INPUT (${day})`);
             }
         }
 
-        msg2.reply('What time should this run at (HH:mm)?');
+        msg2.reply('What time should this run at (HH:mm) (H:00-12, M: 00-60)?');
         dialog.addChoice(/^[01][0-9]:[0-5][0-9]$/i, (msg3) => {
             const {message: {text: time}} = msg3;
             const [hour, min] = time.split(':');
@@ -288,7 +289,7 @@ module.exports = function (robot) {
 
     robot.respond(/help/i, (msg) => {
         // show all available commands
-        let menu = `Available Commands:
+        let menu = `Available Commands for Standup:
 \`<bot> join\` add your user to the standup in the current room
 \`<bot> leave\` remove your user from the standup in the current room
 \`<bot> show\` list the users registered for standup in this room
