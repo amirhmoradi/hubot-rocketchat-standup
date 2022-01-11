@@ -1,28 +1,40 @@
 {
   "name": "hubot-rocketchat-standup",
-  "version": "2.0.0",
-  "description": "A Hubot for Initiating Virtual Stand Ups",
+  "version": "3.0.1",
+  "description": "Hubot & Rocket.Chat Standup Bot.",
   "main": "index.js",
-  "repository": "git@github.com:amirhmoradi/hubot-rocketchat-standup.git",
-  "author": "Amir Moradi",
-  "license": "MIT",
+  "author": {
+    "name": "Amir Moradi",
+    "url": "https://amirhmoradi.com"
+  },
   "private": false,
   "keywords": [
     "hubot",
     "rocketchat",
     "chatbot",
     "chat",
-    "standup"
+    "standup",
+    "standup bot",
+    "standbot",
+    "hubot-scripts"
   ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/amirhmoradi/hubot-rocket-chat-standup",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amirhmoradi/hubot-rocket-chat-standup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amirhmoradi/hubot-rocket-chat-standup/issues"
+  },
   "dependencies": {
-    "asteroid": "^2.0.3",
-    "coffeescript": "^2.6.1",
+    "@rocket.chat/sdk": "https://github.com/RocketChat/Rocket.Chat.js.SDK.git",
     "hubot": "^3.3.2",
-    "hubot-conversation": "^1.1.1",
-    "hubot-rocketchat": "^2.0.0",
+    "hubot-conversation": "https://github.com/lmarkus/hubot-conversation.git",
+    "hubot-mongodb-brain-evo": "^2.0.0",
+    "hubot-rocketchat": "https://github.com/amirhmoradi/hubot-rocketchat.git",
     "node-schedule": "^2.1.0"
   },
   "devDependencies": {
-    "dotenv": "^10.0.0"
   }
 }
