@@ -1,6 +1,6 @@
 {
   "name": "hubot-rocketchat-standup",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Hubot & Rocket.Chat Standup Bot.",
   "main": "index.js",
   "author": {
@@ -28,11 +28,7 @@
     "url": "https://github.com/amirhmoradi/hubot-rocket-chat-standup/issues"
   },
   "dependencies": {
-    "@rocket.chat/sdk": "https://github.com/RocketChat/Rocket.Chat.js.SDK.git",
-    "hubot": "^3.3.2",
     "hubot-conversation": "https://github.com/lmarkus/hubot-conversation.git",
-    "hubot-mongodb-brain-evo": "^2.0.0",
-    "hubot-rocketchat": "https://github.com/amirhmoradi/hubot-rocketchat.git",
     "node-schedule": "^2.1.0"
   },
   "devDependencies": {

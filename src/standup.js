@@ -2,13 +2,10 @@
 
 // Description:
 //   Standup Bot for Rocket.Chat, with Hubot.
+//   Compatible with hubot-mongodb-brain-evo to persist standup settings in MongoDB.
 // 
 // Dependencies:
-//   @rocket.chat/sdk,
-//   hubot,
 //   https://github.com/lmarkus/hubot-conversation,
-//   hubot-mongodb-brain-evo,
-//   https://github.com/amirhmoradi/hubot-rocketchat,
 //   node-schedule
 // 
 // Configuration:
@@ -16,12 +13,12 @@
 //   STANDUP_TIMEOUT || 1800000 # 30min defaut, unit is in miliseconds.
 // 
 // Commands:
-//   <bot> standup join - add your user to the standup in the current room
-//   <bot> standup leave - remove your user from the standup in the current room
-//   <bot> standup show - list the users registered for standup in this room
-//   <bot> standup schedule - set the reminder for when to ping users to enter their standup information
-//   <bot> standup cancel - removes the current standup reminder
-//   <bot> standup init - manually initiate a standup (will ping standup members individually)`;
+//   standup join - add your user to the standup in the current room
+//   standup leave - remove your user from the standup in the current room
+//   standup show - list the users registered for standup in this room
+//   standup schedule - set the reminder for when to ping users to enter their standup information
+//   standup cancel - removes the current standup reminder
+//   standup init - manually initiate a standup (will ping standup members individually)`;
 // 
 // Notes:
 //   The script uses node-schedule to manage standup cron jobs. It required the mongodb to persist standup data.
@@ -99,7 +96,6 @@ module.exports = function (robot) {
     };
 
     const askStandupQuestions = async (robot, standUpRoomId, userId, username) => {
-        //const dmRoomId = [robot.adapter.userId, userId].sort().join('');
         const dmRoomId = await robot.adapter.driver.getDirectMessageRoomId(username);
 
         const questions = [
@@ -116,7 +112,7 @@ module.exports = function (robot) {
         };
         robot.send(fakeTarget, '#### Collecting today\'s standup');
         //robot.adapter.sendDirect({ user: { name: username } }, '#### Collecting today\'s standup');
-        const dialog = robot.switchBoard.startDialog(fakeMessage, STANDUP_TIMEOUT);  // 10m
+        const dialog = robot.switchBoard.startDialog(fakeMessage, STANDUP_TIMEOUT);
         const standup = robot.brain.data.standups[`standup-${standUpRoomId}`];
 
 
@@ -266,8 +262,7 @@ module.exports = function (robot) {
 
                 data.schedule = `standup-${roomId}`;
                 robot.brain.cronjobs[data.schedule] = jobSchedule;
-
-                console.log(jobSchedule);
+                robot.logger.info("Standups Cron Set: " + data.schedule);
             }
         }
     };
@@ -276,8 +271,6 @@ module.exports = function (robot) {
     robot.brain.on('loaded', brainLoaded);
     
     robot.switchBoard = new Conversation(robot,'user',function(msg){
-        //console.log("****************");
-        //console.log(msg);
         /* Do something with the incoming message (like checks, types...) */
         return true;
       });
@@ -331,19 +324,6 @@ module.exports = function (robot) {
         const {id: userId, roomID} = msg.envelope.user;
         msg.reply(`The current room Id is ${roomID}`);
     });
-
-
-    robot.respond(/help/i, (msg) => {
-        // show all available commands
-        let menu = `Available Commands for Standup Bot:
-\`<bot> standup join\` add your user to the standup in the current room
-\`<bot> standup leave\` remove your user from the standup in the current room
-\`<bot> standup show\` list the users registered for standup in this room
-\`<bot> standup schedule\` set the reminder for when to ping users to enter their standup information
-\`<bot> standup cancel\` removes the current standup reminder
-\`<bot> standup init\` manually initiate a standup (will ping standup members individually)`;
-        msg.reply(menu);
-    })
 
     robot.respond(/standup (init|initiate)/i, (msg) => {
         pingStandUp(robot, msg.envelope.user.roomID)();
