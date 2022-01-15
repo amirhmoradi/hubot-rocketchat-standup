@@ -151,7 +151,8 @@ module.exports = function (robot) {
             scheduledJob = null;
             standup.time = null;
         }
-        robot.brain.data.standups[`standup-${roomId}`] = standup;
+        robot.brain.data.standups[`standup-${roomId}`] = null;
+        delete robot.brain.data.standups[`standup-${roomId}`];
     };
 
     const pingStandUp = (robot, roomId) => () => {
@@ -296,8 +297,8 @@ module.exports = function (robot) {
 
     robot.respond(/standup start/i, (msg) => {
         // manually trigger a standup without scheduling
-        const {roomID} = msg.envelope.user;
-        const standup = robot.brain.data.standups[`standup-${roomID}`] || newStandUp();
+        const {id: userId, roomID, name: username, roomType} = msg.envelope.user;
+        askStandupQuestions(robot, roomID, userId, username);
     })
 
     robot.respond(/standup join/i, (msg) => {
