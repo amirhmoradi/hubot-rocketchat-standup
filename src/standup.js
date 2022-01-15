@@ -79,7 +79,7 @@ module.exports = function (robot) {
 
     const postStandup = (robot, standUpRoomId, userId, username) => {
         const content = getUserStandUp(robot, standUpRoomId, userId);
-        const reply = `#### Stand Up: ${username}
+        const reply = `#### Stand Up: **${username}**
     **yday**
     ${content.yday}
 
@@ -97,6 +97,7 @@ module.exports = function (robot) {
 
     const askStandupQuestions = async (robot, standUpRoomId, userId, username) => {
         const dmRoomId = await robot.adapter.driver.getDirectMessageRoomId(username);
+        const standupRoomName = await robot.adapter.driver.getRoomName(standUpRoomId);
 
         const questions = [
             {question: `@${username}, what did you do last day?`, key: 'yday'},
@@ -110,7 +111,7 @@ module.exports = function (robot) {
             envelope: fakeTarget,
             reply: content => robot.send(fakeTarget, content)
         };
-        robot.send(fakeTarget, '#### Collecting today\'s standup');
+        robot.send(fakeTarget, '#### Collecting today\'s standup for **' + standupRoomName+'**');
         //robot.adapter.sendDirect({ user: { name: username } }, '#### Collecting today\'s standup');
         const dialog = robot.switchBoard.startDialog(fakeMessage, STANDUP_TIMEOUT);
         const standup = robot.brain.data.standups[`standup-${standUpRoomId}`];
