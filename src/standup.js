@@ -144,7 +144,7 @@ module.exports = function (robot) {
     const cancelStandUp = (robot, roomId) => {
         const standup = robot.brain.data.standups[`standup-${roomId}`] || newStandUp();
 
-        let scheduledJob = robot.brain.cronjobs[data.schedule] || false;
+        let scheduledJob = robot.brain.cronjobs[standup.schedule] || false;
 
         if (scheduledJob) {
             scheduledJob.cancel();
